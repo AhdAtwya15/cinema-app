@@ -2,35 +2,43 @@ import { Star, Clock, Ticket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import type { IMovie, MovieCategory } from '../../types';
-import { getOptimizedCloudinaryUrl } from '../../utils/cloudinary';
+import { getOptimizedCloudinaryUrl, getCloudinarySrcSet } from '../../utils/cloudinary';
 
 interface IProps {
     movie: IMovie;
     isSmall?: boolean;
     showPrice?: boolean;
-    isRelease?: boolean
+    isRelease?: boolean;
+    priority?: boolean;
 }
 
-const MovieCard = ({ movie, isSmall, showPrice, isRelease = false }: IProps) => {
+const MovieCard = ({ movie, isSmall, showPrice, isRelease = false, priority = false }: IProps) => {
     const navigate = useNavigate();
 
     return (
         <article
             onClick={() => isRelease ? null : navigate(`/movies/${movie._id}`)}
-            className="bg-[#1A2232] group relative rounded-2xl overflow-hidden shadow-lg shadow-blue-500/30 cursor-pointer transition-all  hover:shadow-[#C5A059]/10 hover:-translate-y-2 border border-neutral-800 hover:border-[#C5A059]/30 flex flex-col h-full duration-300"
+            className="bg-[#1A2232] group relative rounded-2xl overflow-hidden cursor-pointer transition-all hover:-translate-y-2 border border-neutral-800 flex flex-col h-full duration-300 will-change-transform shadow-lg shadow-blue-500/10"
         >
+          
+            <div className="absolute inset-0 border border-[#C5A059]/30 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30" />
+            <div className="absolute inset-0 shadow-2xl shadow-[#C5A059]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30" />
 
             <div className="relative aspect-4/5 md:aspect-2/3 w-full overflow-hidden">
                 {
                     movie.poster && (
                         <img
-                            src={getOptimizedCloudinaryUrl(movie.poster, { width: 600 })}
+                            src={getOptimizedCloudinaryUrl(movie.poster, { width: 300 })}
+                            srcSet={getCloudinarySrcSet(movie.poster, [300, 400, 600, 800])}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
                             alt={movie.movieName}
-                            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-                            loading="lazy"
-                            decoding="async"
-                            width="400"
-                            height="600"
+                            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 will-change-transform"
+                            loading={priority ? "eager" : "lazy"}
+                         
+                            fetchPriority={priority ? "high" : "auto"}
+                            decoding={priority ? "sync" : "async"}
+                            width="300"
+                            height="450"
                         />
                     )
                 }

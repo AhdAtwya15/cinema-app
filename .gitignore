@@ -21,11 +21,4 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Tool specific
-.qoder
-
+*.sw?

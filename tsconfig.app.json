@@ -8,7 +8,6 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -18,13 +17,11 @@
 
     "ignoreDeprecations": "5.0",
 
-    /* Path mappings */
     "paths": {
       "@/*": ["./src/*"],
       "@/lib/*": ["./lib/*"]
     },
 
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

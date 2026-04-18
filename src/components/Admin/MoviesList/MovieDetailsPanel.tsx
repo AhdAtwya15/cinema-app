@@ -49,6 +49,8 @@ const MovieDetailsPanel: React.FC<MovieDetailsPanelProps> = ({ movie }) => {
                 <img
                   src={movie.poster}
                   alt={movie.movieName}
+                  width="600"
+                  height="800"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#1A1A2E] via-transparent to-transparent opacity-80" />
@@ -131,7 +133,7 @@ const MovieDetailsPanel: React.FC<MovieDetailsPanelProps> = ({ movie }) => {
                           {movie.cast.map((member, idx) => (
                               <div key={idx} className="flex flex-col items-center gap-2 min-w-[60px]">
                                   <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10">
-                                      <img src={member.preview} alt={member.name} className="w-full h-full object-cover" />
+                                      <img src={member.preview} alt={member.name} width="48" height="48" className="w-full h-full object-cover" />
                                   </div>
                                   <span className="text-[10px] text-gray-400 text-center line-clamp-1">{member.name}</span>
                               </div>

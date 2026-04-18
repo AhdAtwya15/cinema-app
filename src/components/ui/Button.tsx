@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
     ...props
 }) => {
     // Base styles applicable to all buttons
-    const baseStyles = 'inline-flex items-center justify-center rounded-full font-bold transition-all duration-300 focus:outline-none';
+    const baseStyles = 'inline-flex items-center justify-center rounded-full font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C5A059] focus-visible:outline-none outline-none';
 
     const variants = {
         primary: 'bg-linear-to-br from-[#D4A853] via-[#F0C97A] to-[#B8892F] hover:bg-[#b38f4a] text-[#191C32] shadow-lg hover:shadow-[rgba(212,168,83,0.45)]  transform hover:-translate-y-0.5',

@@ -4,6 +4,7 @@ import MoviesTable from "../../components/Admin/Dashboard/MoviesTable";
 import {  AlertCircle, RefreshCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import { slideInLeftVariant, fadeScaleVariant } from "../../utils/animations";
+import DashboardSkeleton from "../../components/Admin/DashboardSkeleton";
 
 const DashboardPage = () => {
   const { data, isLoading, isError, error, refetch } = useDashboardStats();
@@ -37,17 +38,7 @@ const DashboardPage = () => {
       </motion.div>
 
       {isLoading && (
-        <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={fadeScaleVariant}
-          className="flex flex-col items-center justify-center py-40"
-        >
-          <div className="relative">
-                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-         
-        </motion.div>
+        <DashboardSkeleton />
       )}
 
       {isError && (

@@ -6,9 +6,10 @@ import type { IBooking } from "../../types";
 interface BookingTicketProps {
     booking: IBooking;
     index: number;
+    priority?: boolean;
 }
 
-const BookingTicket = ({ booking, index }: BookingTicketProps) => {
+const BookingTicket = ({ booking, index, priority = false }: BookingTicketProps) => {
    
     const dateObj = new Date(booking.showtime);
     const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -25,10 +26,14 @@ const BookingTicket = ({ booking, index }: BookingTicketProps) => {
 
             <div className="relative w-full md:w-48 h-64 md:h-auto overflow-hidden">
                 <img
-                    src={booking.movie.poster}
+                    src={booking.movie.poster + "?w=400&c=fill&f=auto&q=auto"}
                     alt={booking.movie.title}
-                    loading="lazy"
+                    loading={priority ? "eager" : "lazy"}
+                    // @ts-ignore
+                    fetchpriority={priority ? "high" : "auto"}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    width="400"
+                    height="600"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#1A2232] via-transparent to-transparent md:bg-linear-to-r" />
                 

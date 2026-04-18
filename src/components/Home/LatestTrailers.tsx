@@ -5,7 +5,7 @@ import { slideInLeftVariant, slideInRightVariant } from "../../utils/animations"
 import type { IMovie, Trailer } from '../../types';
 import UseGetDataQuery from '../../hooks/useGetDataQuery';
 import { useEffect } from 'react';
-import { getOptimizedCloudinaryUrl } from '../../utils/cloudinary';
+import { getOptimizedCloudinaryUrl ,getCloudinarySrcSet} from '../../utils/cloudinary';
 
 const LatestTrailers = () => {
 
@@ -240,17 +240,25 @@ const LatestTrailers = () => {
                                     <div
                                         key={trailer.id}
                                         onClick={() => setActiveTrailer(trailer)}
-                                        className={`group w-[260px]   flex flex-col gap-3 p-3 rounded-2xl shadow-md  cursor-pointer transition-all duration-300 snap-start shrink-0 ${activeTrailer?.id === trailer.id
-                                            ? 'bg-[#C5A059]/10 border border-[#C5A059]/30 shadow-md shadow-[#C5A059]/30' 
-                                            : 'hover:bg-[#1A1A2E] border border-transparent shadow-md shadow-blue-500/30'
+                                        className={`group w-[260px] relative flex flex-col gap-3 p-3 rounded-2xl cursor-pointer transition-all duration-300 snap-start shrink-0 overflow-hidden ${activeTrailer?.id === trailer.id
+                                            ? 'bg-[#C5A059]/10' 
+                                            : 'hover:bg-[#1A1A2E]'
                                             }`}
                                     >
+                                        {/* Performance-optimized border/shadow layers */}
+                                        <div className={`absolute inset-0 border rounded-2xl transition-opacity duration-300 pointer-events-none z-10 ${
+                                            activeTrailer?.id === trailer.id 
+                                            ? 'border-[#C5A059]/40 opacity-100 shadow-[0_0_20px_rgba(197,160,89,0.2)]' 
+                                            : 'border-transparent group-hover:border-[#C5A059]/20 opacity-0 group-hover:opacity-100'
+                                        }`} />
                                         
-                                        <div className="relative w-full h-32 rounded-xl overflow-hidden shrink-0">
+                                        <div className="relative w-full h-32 rounded-xl overflow-hidden shrink-0 z-0">
                                             <img
                                                 src={getOptimizedCloudinaryUrl(trailer.thumbnail, { width: 400 })}
+                                                srcSet={getCloudinarySrcSet(trailer.thumbnail, [300, 400, 600])}
+                                                sizes="260px"
                                                 alt={trailer.title}
-                                                className={`w-full h-full object-cover transition-transform duration-500 ${activeTrailer?.id !== trailer.id && 'group-hover:scale-110'}`}
+                                                className={`w-full h-full object-cover transition-transform duration-500 will-change-transform ${activeTrailer?.id !== trailer.id && 'group-hover:scale-110'}`}
                                                 loading="lazy"
                                                 decoding="async"
                                                 width="260"
@@ -262,7 +270,7 @@ const LatestTrailers = () => {
                                         </div>
 
 
-                                        <div className="flex flex-col min-w-0">
+                                        <div className="flex flex-col min-w-0 z-0">
                                             <p className={`font-bold truncate text-sm mb-1 ${activeTrailer?.id === trailer.id ? 'text-[#C5A059]' : 'text-white group-hover:text-[#C5A059] transition-colors'}`}>
                                                 {trailer.title}
                                             </p>
@@ -290,11 +298,21 @@ const LatestTrailers = () => {
 
                             <div className="flex flex-col gap-4 overflow-y-auto">
                                 {trendingMovies.map((movie) => (
-                                    <div key={movie.id} className="flex gap-4 p-3 rounded-2xl bg-[#1A1A2E] border border-neutral-800 shadow-md shadow-blue-500/30 hover:shadow-md hover:shadow-[#C5A059]/30 mb-1 transition-all duration-300">
-                                        <div className="w-35 h-32 shrink-0 rounded-xl overflow-hidden shadow-lg">
-                                            <img src={getOptimizedCloudinaryUrl(movie.thumbnail, { width: 300 })} alt={movie.title} className="w-full h-full object-cover" loading="lazy" decoding="async" width="140" height="128" />
+                                    <div key={movie.id} className="group relative flex gap-4 p-3 rounded-2xl bg-[#1A1A2E] border border-neutral-800 shadow-md shadow-blue-500/10 mb-1 transition-all duration-300">
+                                        <div className="absolute inset-0 border border-[#C5A059]/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                        <div className="w-35 h-32 shrink-0 rounded-xl overflow-hidden shadow-lg z-10">
+                                            <img 
+                                                src={getOptimizedCloudinaryUrl(movie.thumbnail, { width: 300 })} 
+                                                srcSet={getCloudinarySrcSet(movie.thumbnail, [200, 300, 400])}
+                                                sizes="140px"
+                                                alt={movie.title} 
+                                                className="w-full h-full object-cover" 
+                                                loading="lazy" 
+                                                decoding="async" 
+                                                width="140" height="128" 
+                                            />
                                         </div>
-                                        <div className="flex flex-col justify-center gap-2">
+                                        <div className="flex flex-col justify-center gap-2 z-10">
 
                                             <h5 className="text-white font-bold text-base mb-1">{movie.title}</h5>
                                             <span className="text-[10px] text-[#C5A059] uppercase tracking-wider font-bold mb-1  px-2 py-0.5 rounded-full w-fit">

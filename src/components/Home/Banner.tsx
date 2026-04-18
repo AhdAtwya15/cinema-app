@@ -3,7 +3,7 @@ import { Info, Ticket } from "lucide-react";
 import { Button } from "../ui/Button";
 import { m } from "framer-motion";
 import { slideInLeftVariant, slideInRightVariant } from "../../utils/animations";
-import { getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
+import { getOptimizedCloudinaryUrl, getCloudinarySrcSet } from "../../utils/cloudinary";
 
 const VIDEO_URL =
   "https://res.cloudinary.com/df2nbeovz/video/upload/f_auto,q_auto/v1771713434/MovieBannerVideo_i9t2uk.mp4";
@@ -20,10 +20,14 @@ const Banner = () => {
     >
       <img
         src={getOptimizedCloudinaryUrl(VIDEO_POSTER, { width: 1920 })}
+        srcSet={getCloudinarySrcSet(VIDEO_POSTER, [640, 1024, 1920])}
+        sizes="100vw"
         alt=""
         loading="eager"
         fetchPriority="high"
         className="absolute inset-0 w-full h-full object-cover"
+        width="1920"
+        height="1080"
       />
 
       <video
@@ -48,7 +52,7 @@ const Banner = () => {
         <m.p
           className=" tracking-[0.3em] text-[#C5A059] uppercase text-xs md:text-sm font-semibold"
           variants={slideInLeftVariant}
-          initial="hidden"
+          initial={false}
           animate="visible"
         >
           Welcome to Luxeure Cinema
@@ -58,7 +62,7 @@ const Banner = () => {
         <m.h1
           className="text-white text-5xl md:text-8xl font-serif leading-[0.9]"
           variants={slideInRightVariant}
-          initial="hidden"
+          initial={false}
           animate="visible"
         >
           <span className="block font-semibold mb-2">Experience Cinema</span>
@@ -72,7 +76,7 @@ const Banner = () => {
         <m.p
           className="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed font-light"
           variants={slideInLeftVariant}
-          initial="hidden"
+          initial={false}
           animate="visible"
         >
           Immerse yourself in state-of-the-art technology, premium comfort, and curated storytelling.

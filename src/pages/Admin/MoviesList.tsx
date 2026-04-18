@@ -12,9 +12,11 @@ import { motion } from "framer-motion";
 import { fadeScaleVariant } from "../../utils/animations";
 import { useAuth } from "../../hooks/Auth/useAuth";
 import { showToast } from "../../utils/CustomToast";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const MoviesList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedMovie, setSelectedMovie] = useState<IMovie | null>(null);
   const [movieToDelete, setMovieToDelete] = useState<string | null>(null);
@@ -33,7 +35,7 @@ const MoviesList: React.FC = () => {
     return movies.filter((movie) => {
       const matchesSearch = movie.movieName
         .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+        .includes(debouncedSearchQuery.toLowerCase());
       
       const categoryMap: { [key: string]: string } = {
         "Normal": "normal",
@@ -47,7 +49,7 @@ const MoviesList: React.FC = () => {
 
       return matchesSearch && matchesCategory;
     });
-  }, [data, searchQuery, activeCategory]);
+  }, [data, debouncedSearchQuery, activeCategory]);
 
   const handleSelectMovie = (movie: IMovie) => {
     setSelectedMovie(movie);

@@ -1,4 +1,3 @@
-
 import { motion, AnimatePresence } from "framer-motion";
 import UseGetDataQuery from "../../hooks/useGetDataQuery";
 import type { IBooking } from "../../types";
@@ -8,6 +7,7 @@ import { AlertCircle, Ticket } from "lucide-react";
 import { useAuth } from "../../hooks/Auth/useAuth";
 import { Button } from "../../components/ui/Button";
 import { fadeScaleVariant } from "../../utils/animations";
+import BookingTicketSkeleton from "../../components/Bookings/BookingTicketSkeleton";
 
 
 const BookingsPage = () => {
@@ -69,11 +69,20 @@ const BookingsPage = () => {
     }
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#191C33] flex items-center justify-center">
-                <div className="relative">
-                    <div className="w-16 h-16 border-4 border-[#D4A853]/20 border-t-[#D4A853] rounded-full animate-spin" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <Ticket className="w-6 h-6 text-[#D4A853] animate-pulse" />
+            <div className="min-h-screen bg-[#191C33] pt-28 pb-20 px-4 md:px-8 lg:px-12 relative overflow-hidden">
+                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/11 blur-[120px] rounded-full pointer-events-none" />
+                <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/11 blur-[120px] rounded-full pointer-events-none" />
+                
+                <div className="max-w-5xl mx-auto relative z-10">
+                    <div className="text-center mb-10">
+                         <div className="h-16 w-64 bg-white/5 rounded-2xl mx-auto mb-6 animate-pulse" />
+                         <div className="h-4 w-96 bg-white/5 rounded-lg mx-auto animate-pulse" />
+                    </div>
+                    
+                    <div className="space-y-8">
+                        {[...Array(3)].map((_, i) => (
+                            <BookingTicketSkeleton key={i} />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -146,7 +155,7 @@ const BookingsPage = () => {
                     <AnimatePresence mode="popLayout">
                         {bookings.length > 0 ? (
                             bookings.map((booking: IBooking, index: number) => (
-                                <BookingTicket key={booking._id} booking={booking} index={index} />
+                                <BookingTicket key={booking._id} booking={booking} index={index} priority={index === 0} />
                             ))
                         ) : (
                             <motion.div

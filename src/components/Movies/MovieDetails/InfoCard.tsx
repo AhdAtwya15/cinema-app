@@ -17,6 +17,8 @@ const InfoCard = ({ title, items, isSmall = false }: InfoCardProps) => {
                             <img
                                 src={item.preview}
                                 alt={item.name}
+                                width="48"
+                                height="48"
                                 className="w-full h-full object-cover"
                                 loading="lazy"
                             />

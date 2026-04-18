@@ -12,6 +12,7 @@ import TimeSelector from '../../components/Movies/MovieDetails/TimeSelector';
 import TrailerModal from '../../components/Movies/MovieDetails/TrailerModal';
 import { getOptimizedCloudinaryUrl } from '../../utils/cloudinary';
 import type { ISlot, IMovie, ICastMember } from '../../types';
+import MovieDetailsSkeleton from '../../components/Movies/MovieDetailsSkeleton';
 
 const MovieDetailsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -51,16 +52,7 @@ const MovieDetailsPage = () => {
     }, [dates, selectedDate]);
 
     if (isLoading) {
-        return <div className="min-h-screen bg-[#191C33] flex items-center justify-center">
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-20"
-            >
-                <div className="w-16 h-16 border-4 border-[#C5A059] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-slate-400 text-xl font-serif italic">Loading movie details...</p>
-            </motion.div>
-        </div>;
+        return <MovieDetailsSkeleton />;
     }
 
     if (!movie) {
@@ -142,6 +134,9 @@ const MovieDetailsPage = () => {
                                 src={getOptimizedCloudinaryUrl(movie.poster || movie.thumbnail, { width: 800 })}
                                 alt={movie.movieName}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                loading="eager"
+                             
+                                fetchPriority="high"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>

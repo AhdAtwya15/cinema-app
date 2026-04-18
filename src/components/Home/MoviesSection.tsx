@@ -20,11 +20,11 @@ const MoviesSection = () => {
                 <div className="max-w-7xl mx-auto flex flex-col gap-12">
                     <div className="space-y-5">
                         <div className="h-4 w-32 bg-white/5 rounded-full animate-pulse" />
-                        <div className="h-16 w-full md:w-[500px] bg-white/5 rounded-2xl animate-pulse" />
+                        <div className="h-10 w-full md:w-[400px] bg-white/5 rounded-xl animate-pulse" />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                         {[1, 2, 3, 4].map((n) => (
-                            <div key={n} className="aspect-2/3 bg-white/5 rounded-2xl animate-pulse" />
+                            <div key={n} className="aspect-[2/3] bg-white/5 rounded-2xl animate-pulse" />
                         ))}
                     </div>
                 </div>

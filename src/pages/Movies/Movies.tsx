@@ -4,8 +4,8 @@ import UseGetDataQuery from "../../hooks/useGetDataQuery";
 import type { CategoryType, IMovie } from "../../types";
 import CategoryFilter from "../../components/Movies/CategoryFilter";
 import MovieCard from "../../components/Movies/MovieCard";
+import MovieCardSkeleton from "../../components/Movies/MovieCardSkeleton";
 import { slideInLeftVariant, slideInRightVariant } from "../../utils/animations";
-
 
 const CATEGORIES: CategoryType[] = ["All Movies", "action", "horror", "comedy", "adventure"];
 
@@ -28,9 +28,21 @@ const MoviesPage = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#191C33]  pb-20 px-4 md:px-8 lg:px-12 relative flex items-center justify-center">
-                <div className="flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="min-h-screen bg-[#191C33] pt-28 pb-20 px-4 md:px-8 lg:px-12 relative overflow-hidden">
+                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/11 blur-[120px] rounded-full pointer-events-none" />
+                <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-500/11 blur-[120px] rounded-full pointer-events-none" />
+                
+                <div className="max-w-7xl mx-auto relative z-10">
+                    <div className="text-center mb-16">
+                        <div className="h-16 w-64 bg-white/5 rounded-2xl mx-auto mb-6 animate-pulse" />
+                        <div className="h-4 w-96 bg-white/5 rounded-lg mx-auto animate-pulse" />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+                        {[...Array(10)].map((_, i) => (
+                            <MovieCardSkeleton key={i} isSmall={true} />
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -89,7 +101,7 @@ const MoviesPage = () => {
                                     ease: "easeOut"
                                 }}
                             >
-                                <MovieCard movie={movie} isSmall={true} showPrice={true} />
+                                <MovieCard movie={movie} isSmall={true} showPrice={true} priority={index < 5} />
                             </motion.div>
                         ))}
                     </AnimatePresence>
